@@ -1,0 +1,32 @@
+#Importing Libraries
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassiﬁer
+from sklearn.metrics import classiﬁcation_report, confusion_matrix
+import pandas as pd
+import numpy as np
+from sklearn import datasets
+import matplotlib.pyplot as plt
+import seaborn as sn
+#Importing Dataset
+iris = datasets.load_iris()
+iris_data = iris.data
+iris_labels = iris.target
+print(iris_data)
+#Split Dataset
+x_train, x_test, y_train, y_test = train_test_split(iris_data, iris_labels, test_size=0.20)
+#Training Model
+classiﬁer = KNeighborsClassiﬁer(n_neighbors=6)
+classiﬁer.ﬁt(x_train, y_train)
+y_pred = classiﬁer.predict(x_test)
+#Running Predictions
+print("Classiﬁcation Report:\n")
+print(classiﬁcation_report(y_test, y_pred))
+#Confusion Matrix
+cm = confusion_matrix(y_test, y_pred)#Checking Validation (Heatmap)
+plt.ﬁgure(ﬁgsize=(6,5))
+sn.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=iris.target_names,
+yticklabels=iris.target_names)
+plt.xlabel('Predicted')
+plt.ylabel('Truth')
+plt.title("Confusion Matrix - KNN (Iris Dataset)")
+plt.show()
