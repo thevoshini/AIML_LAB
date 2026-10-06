@@ -1,0 +1,62 @@
+PROGRAM
+#Import the required libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+#Import the dataset
+df=pd.read_csv('heart.csv')
+#Build the Model
+from pgmpy.models import BayesianModel
+from pgmpy.estimators import MaximumLikelihoodEstimator,BayesianEstimator
+model=BayesianModel([('age','target'),('sex','target'),('exang','target'),('cp','target'),
+('target','restecg'),('target','chol')])
+model.ﬁt(df,estimator=MaximumLikelihoodEstimator)
+print(model.get_cpds('age'))
+OUTPUT
++---------+------------+
+| age(29) | 0.00330033 |
++---------+------------+
+| age(34) | 0.00660066 |
++---------+------------+
+| age(35) | 0.0132013 |
++---------+------------+
+| age(37) | 0.00660066 |
++---------+------------+
+| age(38) | 0.00990099 |
++---------+------------+
+| age(39) | 0.0132013 |
++---------+------------+
+print(model.get_cpds('sex'))
+OUTPUT
+| sex(0) | 0.316832 |+--------+----------+
+| sex(1) | 0.683168 |
+print(model.get_cpds('exang'))
+OUTPUT
+| exang(0) | 0.673267 |
++----------+----------+
+| exang(1) | 0.326733 |
++----------+----------+
+print(model.get_cpds('chol'))
+OUTPUT
+| target | target(0)
+| target(1)
+|
++-----------+----------------------+--------------------------------------------------- +
+| chol(126) | 0.0
+| 0.006060606060606061
+|
++-----------+----------------------+----------------------------------------------------+
+| chol(131) | 0.007246376811594203 | 0.0
+|
++-----------+----------------------+----------------------------------------------------+
+| chol(141) | 0.0
+| 0.006060606060606061
+|
++-----------+----------------------+----------------------------------------------------+
+| chol(149) | 0.007246376811594203 | 0.006060606060606061
++-----------+----------------------+----------------------------------------------------+
+| chol(157) | 0.0
+| 0.006060606060606061
+|
++-----------+----------------------+----------------------------------------------------+
